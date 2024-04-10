@@ -1,4 +1,4 @@
-port module Ports.Editor exposing (editorInit, layoutGraph, layoutDone, findFit, fitDone)
+port module Ports.Editor exposing (editorInit, layoutGraph, layoutDone, findFit, fitDone, loadFile)
 
 import Json.Encode exposing (Value)
 
@@ -11,3 +11,5 @@ port layoutDone : (Value -> msg) -> Sub msg
 port findFit : Value -> Cmd msg
 
 port fitDone : (Value -> msg) -> Sub msg
+
+port loadFile : (Value -> msg) -> Sub msg

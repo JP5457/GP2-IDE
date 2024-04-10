@@ -206,6 +206,8 @@ subscriptions model =
             |> Sub.map EditorMsg
         , Ports.Editor.layoutDone
             (Decode.decodeValue (Decode.string) >> Result.map (LoadDot True >> FileMsg) >> Result.withDefault (EditorMsg GraphEditor.NullMsg))
+        , Ports.Editor.loadFile
+            (Decode.decodeValue (Decode.string) >> Result.map (LoadGP2>> FileMsg) >> Result.withDefault (EditorMsg GraphEditor.NullMsg))
         ]
 
 
