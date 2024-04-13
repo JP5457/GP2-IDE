@@ -10,7 +10,6 @@
 		<meta charset="UTF-8" />
 	</head>
 	<body>
-		<h1>BOSH</h1>
 		<script type="text/javascript" src="../js/viz.js"></script>
 		<script type="text/javascript" src="../js/full.render.js"></script>
 		<script
@@ -33,7 +32,6 @@
 			const params = new URLSearchParams(document.location.search);
 			const file = params.get("gp2");
 			console.log(file);
-			console.log("its gone caput");
 			var app = Elm.Main.init();
 			app.ports.loadFile.send(file);
 		</script>

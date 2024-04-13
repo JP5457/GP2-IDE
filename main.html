@@ -3,13 +3,19 @@
 <button onclick="openEditor()">Click me</button>
 <script>
 	function openEditor() {
-		var fileToLoad = "[ (0(R), 3) | ]";
+		//var fileToLoad = `[ (0(R), 3) | ]`;
+		var fileToLoad =
+			"/home/bigjimmy/Desktop/DIS/GP2/programs/transitive-closure.rule";
+		console.log(fileToLoad);
 		var html = [];
 		html.push(
-			'<embed type="text/html" src="grape/build/graph/index.html?gp2=[ (0(R), 3) | ]" height=80% width=80%>'
+			'<embed type="text/html" src="grape/build/rule/index.html?gp2=' +
+				fileToLoad +
+				'" height="80%" width="80%"/>'
 		);
 		var target = document.getElementById("opened_editor");
 		target.innerHTML = html.join("");
 		target.style.display = "block";
+		console.log("huh");
 	}
 </script>

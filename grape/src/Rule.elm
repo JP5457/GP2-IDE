@@ -436,6 +436,8 @@ subscriptions model =
             |> Sub.map (ElementEditor.EditorMsg >> Left)
         , Ports.Editor.layoutDone
             (Decode.decodeValue (Decode.string) >> Result.map (LoadDot True >> ElementEditor.FileMsg >> Right) >> Result.withDefault (Right (ElementEditor.EditorMsg GraphEditor.NullMsg)))
+        , Ports.Editor.loadFile
+            (Decode.decodeValue (Decode.string) >> Result.map (LoadGP2 >> ElementEditor.FileMsg >> Right) >> Result.withDefault (Right (ElementEditor.EditorMsg GraphEditor.NullMsg)))
         ]
 
 

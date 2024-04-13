@@ -1,43 +1,65 @@
-"use strict";
-const electron = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron/main");
+const path = require("node:path");
+const fs = require("node:fs");
+const { eventNames } = require("node:process");
 
-const app = electron.app; // this is our app
-const BrowserWindow = electron.BrowserWindow; // This is a Module that creates windows
+///home/bigjimmy/Desktop/DIS/GP2/programs/graphs/cycle-4.host
 
-let mainWindow; // saves a global reference to mainWindow so it doesn't get garbage collected
-
-app.on("ready", createWindow); // called when electron has initialized
-
-// This will create our app window, no surprise there
-function createWindow() {
-	mainWindow = new BrowserWindow({
-		width: 1024,
-		height: 768,
-	});
-
-	// display the index.html file
-	mainWindow.loadURL(`file://${__dirname}/main.html`);
-
-	// open dev tools by default so we can see any console errors
-	mainWindow.webContents.openDevTools();
-
-	mainWindow.on("closed", function () {
-		mainWindow = null;
-	});
+async function handleFileOpen() {
+	const { canceled, filePaths } = await dialog.showOpenDialog({});
+	if (!canceled) {
+		return filePaths[0];
+	}
 }
 
-/* Mac Specific things */
-
-// when you close all the windows on a non-mac OS it quits the app
-app.on("window-all-closed", () => {
-	if (process.platform !== "darwin") {
-		app.quit();
+async function handleFileRead(fileName) {
+	console.log(fileName);
+	try {
+		const data = await fs.readFileSync(fileName, {
+			encoding: "utf8",
+		});
+		return data;
+	} catch (err) {
+		return err;
 	}
+}
+
+function createWindow() {
+	const mainWindow = new BrowserWindow({
+		webPreferences: {
+			nodeIntegration: true,
+			preload: path.join(__dirname, "preload.js"),
+		},
+	});
+
+	mainWindow.webContents.openDevTools();
+
+	ipcMain.on("saveFileText", (event, fileName, text) => {
+		const webContents = event.sender;
+		console.log(text);
+		fs.writeFile(fileName, text, (err) => {
+			if (err) {
+				console.error(err);
+				return;
+			}
+		});
+	});
+
+	mainWindow.loadFile("index.html");
+}
+
+app.whenReady().then(() => {
+	ipcMain.handle("openFile", handleFileOpen);
+
+	createWindow();
+
+	ipcMain.handle("readFile", async (event, fileName) => {
+		console.log(fileName);
+		const result = await handleFileRead(fileName);
+		return result;
+	});
 });
 
-// if there is no mainWindow it creates one (like when you click the dock icon)
-app.on("activate", () => {
-	if (mainWindow === null) {
-		createWindow();
-	}
+app.on("window-all-closed", function () {
+	if (process.platform !== "darwin") app.quit();
 });
