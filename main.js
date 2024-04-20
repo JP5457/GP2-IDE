@@ -2,12 +2,18 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron/main");
 const path = require("node:path");
 const fs = require("node:fs");
 const { eventNames } = require("node:process");
+const { exec } = require("child_process");
 
 ///home/bigjimmy/Desktop/DIS/GP2/programs/graphs/cycle-4.host
 
+var projectDir = "";
+
 async function handleFileOpen() {
-	const { canceled, filePaths } = await dialog.showOpenDialog({});
+	const { canceled, filePaths } = await dialog.showOpenDialog({
+		properties: ["openDirectory"],
+	});
 	if (!canceled) {
+		projectDir = filePaths[0];
 		return filePaths[0];
 	}
 }
@@ -18,6 +24,34 @@ async function handleFileRead(fileName) {
 		const data = await fs.readFileSync(fileName, {
 			encoding: "utf8",
 		});
+		return data;
+	} catch (err) {
+		return err;
+	}
+}
+
+async function handleProgramRun(gp2FileName, hostFileName) {
+	exec(
+		"gp2c " + gp2FileName + " " + hostFileName,
+		(error, stdout, stderr) => {
+			if (error) {
+				console.log(`error: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+				return;
+			}
+			console.log(`stdout: ${stdout}`);
+			return stdout;
+		}
+	);
+}
+
+async function handleDirRead(dirName) {
+	console.log(dirName);
+	try {
+		const data = await fs.readdirSync(dirName);
 		return data;
 	} catch (err) {
 		return err;
@@ -45,7 +79,7 @@ function createWindow() {
 		});
 	});
 
-	mainWindow.loadFile("index.html");
+	mainWindow.loadFile("main.html");
 }
 
 app.whenReady().then(() => {
@@ -56,6 +90,19 @@ app.whenReady().then(() => {
 	ipcMain.handle("readFile", async (event, fileName) => {
 		console.log(fileName);
 		const result = await handleFileRead(fileName);
+		return result;
+	});
+
+	ipcMain.handle("readDirectory", async (event, dirName) => {
+		console.log(dirName);
+		const result = await handleDirRead(dirName);
+		return result;
+	});
+
+	ipcMain.handle("programRun", async (event, gp2FileName, hostFileName) => {
+		console.log(gp2FileName);
+		console.log(hostFileName);
+		const result = await handleProgramRun(gp2FileName, hostFileName);
 		return result;
 	});
 });

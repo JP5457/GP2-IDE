@@ -9,6 +9,7 @@
 		/>
 		<meta charset="UTF-8" />
 	</head>
+	</script>
 	<body>
 		<script type="text/javascript" src="../js/viz.js"></script>
 		<script type="text/javascript" src="../js/full.render.js"></script>
@@ -29,11 +30,11 @@
 		></script>
 		<script type="text/javascript" src="../js/Main.js"></script>
 		<script type="text/javascript">
-			const params = new URLSearchParams(document.location.search);
-			const file = params.get("gp2");
-			console.log(file);
+			window.onmessage = function (e) {
+				console.log(e.data);
+				app.ports.loadFile.send(e.data);
+			};
 			var app = Elm.Main.init();
-			app.ports.loadFile.send(file);
 		</script>
 		<script type="text/javascript" src="../js/ports.js"></script>
 	</body>

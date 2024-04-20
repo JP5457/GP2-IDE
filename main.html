@@ -1,21 +1,79 @@
-<h1>testing bar</h1>
-<div id="opened_editor" style="display: none"></div>
-<button onclick="openEditor()">Click me</button>
-<script>
-	function openEditor() {
-		//var fileToLoad = `[ (0(R), 3) | ]`;
-		var fileToLoad =
-			"/home/bigjimmy/Desktop/DIS/GP2/programs/transitive-closure.rule";
-		console.log(fileToLoad);
-		var html = [];
-		html.push(
-			'<embed type="text/html" src="grape/build/rule/index.html?gp2=' +
-				fileToLoad +
-				'" height="80%" width="80%"/>'
-		);
-		var target = document.getElementById("opened_editor");
-		target.innerHTML = html.join("");
-		target.style.display = "block";
-		console.log("huh");
-	}
-</script>
+<div id="topbar" class="menu">
+	<div>
+		<button id="openProject" class="topbutton">Open Project</button>
+		<button id="run" class="topbutton">run</button>
+	</div>
+    <br>
+	<div>
+		<p class="topbutton1">program:</p>
+		<p id="program" class="topbutton1">hmmm</p>
+    </div>
+    <br>
+    <div>
+		<p class="topbutton2">graph:</p>
+		<p id="host" class="topbutton2"></p>
+    </div>
+</div>
+<div id="page">
+    <div id="files" class="files"></div>
+    <div id="editor" class="editor">
+        <iframe
+            id="graph"
+            src="./grape/build/graph/index.html"
+            style="display: none"
+            class="grape"
+        ></iframe>
+        <iframe
+            id="rule"
+            src="./grape/build/rule/index.html"
+            style="display: none"
+            class="grape"
+        ></iframe>
+    </div>
+</div>
+
+	<script src="./openproject.js"></script>
+	<script src="./rungp2.js"></script>
+
+	<style>
+		.files {
+			height: 90%;
+			width: 20%;
+			float: left;
+			box-sizing: border-box;
+			padding: 1%;
+			border: 1px solid black;
+			overflow: auto;
+		}
+		.editor {
+			height: 90%;
+			width: 80%;
+			float: left;
+			box-sizing: border-box;
+			padding: 0%;
+			border: 1px solid black;
+		}
+		.grape {
+			height: 90%;
+			width: 90%;
+		}
+		.menu {
+			height: 5%;
+			padding: 1%;
+			border: 1px solid black;
+			overflow: auto;
+		}
+		.topbutton {
+			float: left;
+			
+		}
+        .topbutton1 {
+			float: left;
+			
+		}
+        .topbutton2 {
+			float: left;
+		
+		}
+	</style>
+</div>

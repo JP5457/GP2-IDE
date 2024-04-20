@@ -29,11 +29,11 @@
 		></script>
 		<script type="text/javascript" src="../js/Rule.js"></script>
 		<script type="text/javascript">
-			const params = new URLSearchParams(document.location.search);
-			const file = params.get("gp2");
+			window.onmessage = function (e) {
+				console.log(e.data);
+				app.ports.loadFile.send(e.data);
+			};
 			var app = Elm.Rule.init();
-			console.log(file);
-			app.ports.loadFile.send(file);
 		</script>
 		<script type="text/javascript" src="../js/ports.js"></script>
 	</body>
