@@ -150,7 +150,7 @@ updateFile msg model =
             shouldLayout layoutDone (parseGraph layoutDone graph) model
 
         SaveGP2 ->
-            ( model, Download.string "graph.host" "text/plain" (GP2Graph.toGP2 model.editorModel.graph))
+            ( model, Ports.Editor.saveData (Encode.string (GP2Graph.toGP2 model.editorModel.graph)))
 
         SaveDot ->
             ( model, Download.string "graph.dot" "text/vnd.graphviz" (GP2Graph.toDot model.editorModel.graph))

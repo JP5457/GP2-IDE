@@ -354,7 +354,7 @@ updateFile msg model =
             shouldLayout layoutDone (parseGraph layoutDone graph) model
 
         SaveGP2 ->
-            ( model, Download.string "graph.rule" "text/plain" (GP2Rule.toGP2 (toRule model)))
+            ( model, Ports.Editor.saveData (Encode.string (GP2Rule.toGP2 (toRule model))))
 
         SaveDot ->
             ( model, Download.string "graph.dot" "text/vnd.graphviz" (GP2Rule.toDot (toRule model)))

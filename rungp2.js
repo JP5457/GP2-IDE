@@ -1,4 +1,5 @@
 const runButton = document.getElementById("run");
+const refreshButton = document.getElementById("refresh");
 
 runButton.addEventListener("click", async () => {
 	var program = document.getElementById("program").innerHTML;
@@ -11,4 +12,10 @@ runButton.addEventListener("click", async () => {
 		log = log + element + "<br>";
 	});
 	document.getElementById("result").innerHTML = log;
+});
+
+refreshButton.addEventListener("click", async () => {
+	document.getElementById("graph").contentWindow.location.reload();
+	document.getElementById("rule").contentWindow.location.reload();
+	document.getElementById("texteditor").contentWindow.location.reload();
 });

@@ -29,9 +29,11 @@
 		></script>
 		<script type="text/javascript" src="../js/Rule.js"></script>
 		<script type="text/javascript">
+			var file = "";
 			window.onmessage = function (e) {
 				console.log(e.data);
 				app.ports.loadFile.send(e.data[1]);
+				file = e.data[0];
 			};
 			var app = Elm.Rule.init();
 		</script>

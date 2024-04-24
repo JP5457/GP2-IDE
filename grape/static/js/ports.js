@@ -4,6 +4,8 @@ app.ports.layoutGraph.subscribe(layoutGraph);
 
 app.ports.findFit.subscribe(findFit);
 
+app.ports.saveData.subscribe(saveData);
+
 function findFit(node) {
 	let svg = document.getElementById(node.svg);
 
@@ -34,6 +36,12 @@ function layoutGraph(graph) {
 	viz.renderString(graph, renderOptions).then((dot) => {
 		app.ports.layoutDone.send(dot);
 	});
+}
+
+function saveData(graph) {
+	console.log(graph);
+	window.top.postMessage([file, graph], "*");
+	console.log("saved");
 }
 
 function getPosition(e, svg) {

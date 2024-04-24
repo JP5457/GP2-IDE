@@ -1,7 +1,5 @@
-[ (8, empty # red) (7, empty # blue) (6, empty # red) (5, empty # blue) (4, empty # red) 
-  (3, empty # blue) (2, empty # red) (1, empty # blue) (0, empty # red) |
-  (5, 7, 8, empty) (4, 6, 7, empty) (11, 5, 8, empty) 
-  (10, 4, 7, empty) (3, 4, 5, empty) (9, 3, 6, empty) 
-  (2, 3, 4, empty) (8, 2, 5, empty) (7, 1, 4, empty) 
-  (1, 1, 2, empty) (6, 0, 3, empty) (0, 0, 1, empty) ]
+[ (5, empty) (4, empty) (3, empty) (2, empty) (1, empty) 
+  (0, empty) |
+  (5, 5, 0, empty) (4, 4, 5, empty) (3, 3, 4, empty) 
+  (2, 2, 3, empty) (1, 1, 2, empty) (0, 0, 1, empty) ]
 

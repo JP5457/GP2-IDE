@@ -387,26 +387,6 @@ options host isNode disable graph otherGraph model =
                     ]
                 ]
 
-        open =
-            div
-                [ class "my-2 mr-sm-2 ml-auto btn-group dropdown" ]
-                [ input
-                    [ type_ "button"
-                    , class "btn btn-outline-primary"
-                    , value "Open"
-                    , onClick (FileMsg OpenDot)
-                    ]
-                    []
-                , button
-                    [ class "btn btn-outline-primary dropdown-toggle dropdown-toggle-split", attribute "data-toggle" "dropdown" ]
-                    []
-                , div
-                    [ class "dropdown-menu dropdown-menu-right" ]
-                    [ a [ class "dropdown-item", href "#", onClick (FileMsg OpenDot) ] [ text "DOT" ]
-                    , a [ class "dropdown-item", href "#", onClick (FileMsg OpenGP2) ] [ text "GP2" ]
-                    ]
-                ]
-
         save =
             div
                 [ class "my-2 mr-sm-2 btn-group dropdown" ]
@@ -414,18 +394,10 @@ options host isNode disable graph otherGraph model =
                     [ type_ "button"
                     , class "btn btn-primary"
                     , value "Save"
-                    , onClick (FileMsg SaveDot)
+                    , onClick (FileMsg SaveGP2)
                     ]
                     []
-                , button
-                    [ class "btn btn-primary dropdown-toggle dropdown-toggle-split", attribute "data-toggle" "dropdown" ]
-                    []
-                , div
-                    [ class "dropdown-menu dropdown-menu-right" ]
-                    [ a [ class "dropdown-item", href "#", onClick (FileMsg SaveDot) ] [ text "DOT" ]
-                    , a [ class "dropdown-item", href "#", onClick (FileMsg SaveGP2) ] [ text "GP2" ]
-                    ]
                 ]
 
     in
-    [ idInput, labelInput, markInput, flagInput, open, save ]
+    [ idInput, labelInput, markInput, flagInput, save]
