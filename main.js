@@ -2,7 +2,8 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron/main");
 const path = require("node:path");
 const fs = require("node:fs");
 const { eventNames } = require("node:process");
-const { exec } = require("child_process");
+const { promisify } = require("util");
+const exec = promisify(require("child_process").exec);
 
 ///home/bigjimmy/Desktop/DIS/GP2/programs/graphs/cycle-4.host
 
@@ -31,21 +32,8 @@ async function handleFileRead(fileName) {
 }
 
 async function handleProgramRun(gp2FileName, hostFileName) {
-	exec(
-		"gp2c " + gp2FileName + " " + hostFileName,
-		(error, stdout, stderr) => {
-			if (error) {
-				console.log(`error: ${error.message}`);
-				return;
-			}
-			if (stderr) {
-				console.log(`stderr: ${stderr}`);
-				return;
-			}
-			console.log(`stdout: ${stdout}`);
-			return stdout;
-		}
-	);
+	const result = await exec("gp2c " + gp2FileName + " " + hostFileName);
+	return result;
 }
 
 async function handleDirRead(dirName) {
@@ -103,7 +91,8 @@ app.whenReady().then(() => {
 		console.log(gp2FileName);
 		console.log(hostFileName);
 		const result = await handleProgramRun(gp2FileName, hostFileName);
-		return result;
+		console.log("hmm" + result.stdout);
+		return result.stdout;
 	});
 });
 

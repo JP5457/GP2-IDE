@@ -1,12 +1,33 @@
 const btn = document.getElementById("openProject");
 
 function createOpenButton(file, filePath) {
-	button = document.createElement("p");
-	button.innerHTML = file;
-	button.addEventListener("click", async () => {
-		openEditor(filePath + "/" + file);
-	});
-	document.getElementById("files").appendChild(button);
+	if (
+		file.slice(-5) == ".rule" ||
+		file.slice(-5) == ".host" ||
+		file.slice(-4) == ".gp2"
+	) {
+		textButton = document.createElement("p");
+		textButton.innerHTML = file + " (text)";
+		textButton.addEventListener("click", async () => {
+			openTextEditor(filePath + "/" + file);
+		});
+		document.getElementById("files").append(textButton);
+		if (file.slice(-5) == ".rule" || file.slice(-5) == ".host") {
+			button = document.createElement("p");
+			button.innerHTML = file + " (graph)";
+			button.addEventListener("click", async () => {
+				openEditor(filePath + "/" + file);
+			});
+			document.getElementById("files").append(button);
+		}
+	} else {
+		button = document.createElement("p");
+		button.innerHTML = file;
+		button.addEventListener("click", async () => {
+			openEditor(filePath + "/" + file);
+		});
+		document.getElementById("files").append(button);
+	}
 }
 
 function createUpButton(filePath) {
@@ -49,7 +70,7 @@ btn.addEventListener("click", async () => {
 async function loadFile(fileName, editor) {
 	fileText = await window.electronAPI.readFile(fileName);
 	console.log(fileText);
-	editor.contentWindow.postMessage(fileText, "*");
+	editor.contentWindow.postMessage([fileName, fileText], "*");
 }
 
 function openEditor(file) {
@@ -59,12 +80,14 @@ function openEditor(file) {
 		editor.style.display = "block";
 		document.getElementById("rule").style.display = "block";
 		document.getElementById("graph").style.display = "none";
+		document.getElementById("texteditor").style.display = "none";
 		loadFile(file, editor);
 	} else if (file.slice(-5) == ".host") {
 		editor = document.getElementById("graph");
 		editor.style.display = "block";
 		document.getElementById("graph").style.display = "block";
 		document.getElementById("rule").style.display = "none";
+		document.getElementById("texteditor").style.display = "none";
 		document.getElementById("host").innerHTML = file;
 		loadFile(file, editor);
 	} else if (file.slice(-4) == ".gp2") {
@@ -73,6 +96,20 @@ function openEditor(file) {
 	} else {
 		openFolder(file);
 	}
+}
+
+function openTextEditor(file) {
+	console.log(file);
+	document.getElementById("rule").style.display = "none";
+	document.getElementById("graph").style.display = "none";
+	document.getElementById("texteditor").style.display = "block";
+	if (file.slice(-5) == ".host") {
+		document.getElementById("host").innerHTML = file;
+	} else if (file.slice(-4) == ".gp2") {
+		document.getElementById("program").innerHTML = file;
+	}
+	editor = document.getElementById("texteditor");
+	loadFile(file, editor);
 }
 
 function setUpFrame() {

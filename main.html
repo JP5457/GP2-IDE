@@ -1,79 +1,117 @@
 <div id="topbar" class="menu">
-	<div>
-		<button id="openProject" class="topbutton">Open Project</button>
-		<button id="run" class="topbutton">run</button>
+	<div class="topthing">
+		<button id="openProject">Open Project</button>
+		<button id="run">run</button>
 	</div>
-    <br>
-	<div>
-		<p class="topbutton1">program:</p>
-		<p id="program" class="topbutton1">hmmm</p>
+	<div class="menu2">
+		<div class="topthing">
+			<p class="topbutton">program:</p>
+			<p id="program" class="topbutton"></p>
+		</div>
+		<div class="topthing">
+			<p class="topbutton">graph:</p>
+			<p id="host" class="topbutton"></p>
+		</div>
     </div>
-    <br>
-    <div>
-		<p class="topbutton2">graph:</p>
-		<p id="host" class="topbutton2"></p>
-    </div>
-</div>
-<div id="page">
-    <div id="files" class="files"></div>
-    <div id="editor" class="editor">
-        <iframe
-            id="graph"
-            src="./grape/build/graph/index.html"
+	</div>
+	<div id="page">
+		<div id="files" class="files"></div>
+		<div id="editor" class="editor">
+			<iframe
+				id="graph"
+				src="./grape/build/graph/index.html"
+				style="display: none"
+				class="grape"
+			></iframe>
+			<iframe
+				id="rule"
+				src="./grape/build/rule/index.html"
+				style="display: none"
+				class="grape"
+			></iframe>
+            <iframe
+            id="texteditor"
+            src="texteditor.html"
             style="display: none"
-            class="grape"
+            class="textEditor"
         ></iframe>
-        <iframe
-            id="rule"
-            src="./grape/build/rule/index.html"
-            style="display: none"
-            class="grape"
-        ></iframe>
-    </div>
-</div>
+		</div>
+	</div>
+	<div id="console" class="consoleOut">
+		<p id="result"></p>
+	</div>
 
 	<script src="./openproject.js"></script>
 	<script src="./rungp2.js"></script>
 
 	<style>
 		.files {
-			height: 90%;
+			height: 70%;
 			width: 20%;
 			float: left;
 			box-sizing: border-box;
 			padding: 1%;
-			border: 1px solid black;
+			border: 1px solid;
 			overflow: auto;
+			background-color: #e9ecef;
+			color: #7a7e83;
 		}
 		.editor {
-			height: 90%;
+			height: 70%;
 			width: 80%;
 			float: left;
 			box-sizing: border-box;
 			padding: 0%;
-			border: 1px solid black;
+			border: 1px solid #d7d7d7;
+			color: #7a7e83;
 		}
 		.grape {
-			height: 90%;
-			width: 90%;
+			height: 99%;
+			width: 99%;
 		}
 		.menu {
-			height: 5%;
-			padding: 1%;
-			border: 1px solid black;
+			height: 10%;
+			padding: 0%;
+			border: 1px solid #d7d7d7;
 			overflow: auto;
+			display: flex;
+			background-color: #e9ecef;
+			color: #7a7e83;
 		}
+        .menu2 {
+            display: flex;
+            flex-direction: column;
+        }
 		.topbutton {
 			float: left;
-			
 		}
-        .topbutton1 {
-			float: left;
-			
+		.consoleOut {
+			height: 20%;
+			width: 100%;
+			box-sizing: border-box;
+			padding: 1%;
+			border: 1px solid #d7d7d7;
+			overflow: auto;
+			background-color: #e9ecef;
+			color: #7a7e83;
 		}
-        .topbutton2 {
-			float: left;
-		
+		.topthing {
+			padding: 5px;
 		}
+		p {
+            margin: 0;
+			margin-bottom: 0px;
+		}
+        .textEditor {
+            height: 99%;
+			width: 99%;
+            overflow: auto;
+        }
 	</style>
+	<link rel="stylesheet" href="style.css" />
 </div>
+<script>
+window.onmessage = function(e) {
+    window.electronAPI.saveFileText(e.data[0], e.data[1]);
+};
+</script>

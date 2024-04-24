@@ -31,7 +31,7 @@
 		<script type="text/javascript">
 			window.onmessage = function (e) {
 				console.log(e.data);
-				app.ports.loadFile.send(e.data);
+				app.ports.loadFile.send(e.data[1]);
 			};
 			var app = Elm.Rule.init();
 		</script>
