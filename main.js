@@ -5,8 +5,6 @@ const { eventNames } = require("node:process");
 const { promisify } = require("util");
 const exec = promisify(require("child_process").exec);
 
-///home/bigjimmy/Desktop/DIS/GP2/programs/graphs/cycle-4.host
-
 var projectDir = "";
 
 async function handleFileOpen() {
@@ -54,11 +52,8 @@ function createWindow() {
 		},
 	});
 
-	mainWindow.webContents.openDevTools();
-
 	ipcMain.on("saveFileText", (event, fileName, text) => {
 		const webContents = event.sender;
-		console.log(text);
 		fs.writeFile(fileName, text, (err) => {
 			if (err) {
 				console.error(err);
@@ -76,22 +71,17 @@ app.whenReady().then(() => {
 	createWindow();
 
 	ipcMain.handle("readFile", async (event, fileName) => {
-		console.log(fileName);
 		const result = await handleFileRead(fileName);
 		return result;
 	});
 
 	ipcMain.handle("readDirectory", async (event, dirName) => {
-		console.log(dirName);
 		const result = await handleDirRead(dirName);
 		return result;
 	});
 
 	ipcMain.handle("programRun", async (event, gp2FileName, hostFileName) => {
-		console.log(gp2FileName);
-		console.log(hostFileName);
 		const result = await handleProgramRun(gp2FileName, hostFileName);
-		console.log("hmm" + result.stdout);
 		return result.stdout;
 	});
 });

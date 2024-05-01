@@ -51,7 +51,6 @@ function createUpButton(filePath) {
 
 async function openFolder(filePath) {
 	var files = await window.electronAPI.readDirectory(filePath);
-	console.log(files);
 	var old = document.getElementById("fileOpener");
 	filesOld = document.getElementById("files");
 	while (filesOld.firstChild) {
@@ -63,18 +62,15 @@ async function openFolder(filePath) {
 
 btn.addEventListener("click", async () => {
 	var filePath = await window.electronAPI.openFile();
-	console.log(filePath);
 	openFolder(filePath);
 });
 
 async function loadFile(fileName, editor) {
 	fileText = await window.electronAPI.readFile(fileName);
-	console.log(fileText);
 	editor.contentWindow.postMessage([fileName, fileText], "*");
 }
 
 function openEditor(file) {
-	console.log(file);
 	if (file.slice(-5) == ".rule") {
 		editor = document.getElementById("rule");
 		editor.style.display = "block";
@@ -91,7 +87,6 @@ function openEditor(file) {
 		document.getElementById("host").innerHTML = file;
 		loadFile(file, editor);
 	} else if (file.slice(-4) == ".gp2") {
-		console.log("hmmm");
 		document.getElementById("program").innerHTML = file;
 	} else {
 		openFolder(file);
@@ -99,7 +94,6 @@ function openEditor(file) {
 }
 
 function openTextEditor(file) {
-	console.log(file);
 	document.getElementById("rule").style.display = "none";
 	document.getElementById("graph").style.display = "none";
 	document.getElementById("texteditor").style.display = "block";
@@ -110,8 +104,4 @@ function openTextEditor(file) {
 	}
 	editor = document.getElementById("texteditor");
 	loadFile(file, editor);
-}
-
-function setUpFrame() {
-	console.log("wow");
 }

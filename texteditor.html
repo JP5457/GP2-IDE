@@ -28,7 +28,6 @@
 		<script type="text/javascript">
 			var file = "";
 			window.onmessage = function (e) {
-				console.log(e.data);
 				editor.setValue(e.data[1]);
 				file = e.data[0];
 			};
@@ -38,7 +37,6 @@
 				bindKey: { win: "Ctrl-S", mac: "Command-S" },
 				exec: function (editor) {
 					window.top.postMessage([file, editor.getValue()], "*");
-					console.log("saved");
 				},
 				readOnly: true,
 			});
